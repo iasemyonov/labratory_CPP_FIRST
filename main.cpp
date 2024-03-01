@@ -1,6 +1,8 @@
 #include <iostream>
+#include <vector>
+#include <cstdlib>
 
-void arrayout(int list[], int listLength){
+void arrayOut(int list[], int listLength){
     for(int i = 0; i < listLength; i++)
         std::cout << list[i] << " ";
     std::cout << std::endl;
@@ -22,6 +24,33 @@ void bubbleSort(int list[], int listLength)
 
         if(swapped == false)
             break;
+    }
+}
+int partition(int list[], int low,int high) {
+    int pivot = list[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (list[j] < pivot) {
+            i++;
+            std::swap(list[i], list[j]);
+        }
+    }
+
+    std::swap(list[i+1], list[high]);
+    return i + 1;
+}
+int randomPartition(int list[], int low, int high) {
+    int randomIndex = low + rand() % (high - low + 1);
+    std::swap(list[randomIndex], list[high]);
+    return partition(list, low, high);
+}
+void quickSort(int list[], int low,int high) {
+    if (low < high) {
+        int pi = randomPartition(list, low, high);
+
+        quickSort(list, low, pi - 1);
+        quickSort(list, pi + 1, high);
     }
 }
 
@@ -47,11 +76,12 @@ int main()
 
 
     bubbleSort(list1, n);
+    quickSort(list2, 0, n - 1);
 
     std::cout << "Sorted array: " << std::endl;
-    arrayout(list1,n);
-    arrayout(list2,n);
-    arrayout(list3,n);
+    arrayOut(list1,n);
+    arrayOut(list2,n);
+    arrayOut(list3,n);
 }
 
 
