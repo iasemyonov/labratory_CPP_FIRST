@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <vector> //delete
 #include <cstdlib>
 
 void arrayOut(int list[], int listLength){
@@ -53,14 +53,45 @@ void quickSort(int list[], int low,int high) {
         quickSort(list, pi + 1, high);
     }
 }
+void heapify(int list[], int n, int i) {
+    int largest = i;
+    int left = 2*i + 1;
+    int right = 2*i + 2;
+
+    if (left < n && list[left] > list[largest]) {
+        largest = left;
+    }
+
+    if (right < n && list[right] > list[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        std::swap(list[i], list[largest]);
+        heapify(list, n, largest);
+    }
+}
+void heapSort(int list[],int n) {
+
+    for (int i = n/2 - 1; i >= 0; i--) {
+        heapify(list, n, i);
+    }
+
+    for (int i = n - 1; i > 0; i--) {
+        std::swap(list[0], list[i]);
+        heapify(list, i, 0);
+    }
+}
+
 
 int main()
 {
     int list[5] = {0,0,0,0,0};
+    int n = sizeof(list)/sizeof(int);
     int list1[5] = {0,0,0,0,0};
     int list2[5] = {0,0,0,0,0};
     int list3[5] = {0,0,0,0,0};
-    int n = sizeof(list)/sizeof(int);
+
 
     std::cout << "Lenth of array = " << n << std::endl;
 
@@ -69,29 +100,18 @@ int main()
         std::cin >> list[i];
     std::cout << std::endl;
 
-
     std::copy(std::begin(list), std::end(list), std::begin(list1));
     std::copy(std::begin(list), std::end(list), std::begin(list2));
     std::copy(std::begin(list), std::end(list), std::begin(list3));
 
-
     bubbleSort(list1, n);
     quickSort(list2, 0, n - 1);
+    heapSort(list3, n);
 
-    std::cout << "Sorted array: " << std::endl;
+    std::cout << "Bubble sorted array: " << std::endl;
     arrayOut(list1,n);
+    std::cout << "Quick sorted array: " << std::endl;
     arrayOut(list2,n);
+    std::cout << "Heap sorted array: " << std::endl;
     arrayOut(list3,n);
 }
-
-
-/*
- * массив случайных 10 чисел
- * дублируем на 3
- * каждый сортируем
- * каждый выводим
- *
- * Пузырьковая сортировка (Bubble sort);
- * Быстрая сортировка (Quick sort);
- * Сортировка кучей (Heap sort).
- */
